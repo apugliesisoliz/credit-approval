@@ -23,6 +23,7 @@ namespace credit_approval
             CreateMap<Credit, CreditDto>();
             CreateMap<CreditForCreationDto, Credit>();
             CreateMap<CreditForUpdate, Credit>();
+            CreateMap<CreditForApproveDto, Credit>();
         }
     }
 }

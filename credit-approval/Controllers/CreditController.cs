@@ -61,6 +61,21 @@ namespace credit_approval.Controllers
             }
         }
 
+        [HttpGet("getByAuthState/{state}")]
+        public IActionResult GetByAuthState(int state)
+        {
+            try
+            {
+                var credits = _repository.Credit.GetByAuthState(state);
+                var creditsResult = _mapper.Map<IEnumerable<CreditDto>>(credits);
+                return Ok(creditsResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpPost("create")]
         public IActionResult CreateCredit([FromBody] CreditForCreationDto credit)
         {
@@ -94,13 +109,13 @@ namespace credit_approval.Controllers
         }
 
         [HttpPut("update/{Id}")]
-        public IActionResult UpdateClient(int Id, [FromBody] CreditForUpdate credit)
+        public IActionResult UpdateCredit(int Id, [FromBody] CreditForUpdate credit)
         {
             try
             {
                 if (credit == null)
                 {
-                    return BadRequest("Owner object is null");
+                    return BadRequest("Credit object is null");
                 }
                 if (!ModelState.IsValid)
                 {
@@ -122,18 +137,88 @@ namespace credit_approval.Controllers
             }
         }
 
-        [HttpPut("delete/{Id}")]
-        public IActionResult DeleteClient(int Id)
+        [HttpPut("approve/{Id}")]
+        public IActionResult ApproveCredit(int Id, [FromBody] CreditForApproveDto credit)
         {
             try
             {
-                var clientEntity = _repository.Client.GetClientById(Id);
-                if (clientEntity == null)
+                if (credit == null)
+                {
+                    return BadRequest("Credit object is null");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid model object");
+                }
+                var creditEntity = _repository.Credit.GetCreditById(Id);
+                if (creditEntity == null)
                 {
                     return NotFound();
                 }
-                clientEntity.State = false;
-                _repository.Client.UpdateClient(clientEntity);
+                if (!_repository.User.UserHasPrivileges(credit.UserAuth))
+                {
+                    return BadRequest("Cant approve a credit, user has no privileges");
+                }
+                _mapper.Map(credit, creditEntity);
+                creditEntity.DateAuth = DateTime.Now;
+                creditEntity.AuthState = 1; // 1 is approved
+                _repository.Credit.UpdateCredit(creditEntity);
+                _repository.Save();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("refuse/{Id}")]
+        public IActionResult RefuseCredit(int Id, [FromBody] CreditForApproveDto credit)
+        {
+            try
+            {
+                if (credit == null)
+                {
+                    return BadRequest("Credit object is null");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid model object");
+                }
+                var creditEntity = _repository.Credit.GetCreditById(Id);
+                if (creditEntity == null)
+                {
+                    return NotFound();
+                }
+                if (!_repository.User.UserHasPrivileges(credit.UserAuth))
+                {
+                    return BadRequest("Cant approve a credit, user has no privileges");
+                }
+                _mapper.Map(credit, creditEntity);
+                creditEntity.DateAuth = DateTime.Now;
+                creditEntity.AuthState = 2; // 2 is refused
+                _repository.Credit.UpdateCredit(creditEntity);
+                _repository.Save();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("delete/{Id}")]
+        public IActionResult DeleteCredit(int Id)
+        {
+            try
+            {
+                var creditEntity = _repository.Credit.GetCreditById(Id);
+                if (creditEntity == null)
+                {
+                    return NotFound();
+                }
+                creditEntity.State = false;
+                _repository.Credit.UpdateCredit(creditEntity);
                 _repository.Save();
                 return NoContent();
             }

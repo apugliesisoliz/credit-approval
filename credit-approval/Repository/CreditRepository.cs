@@ -19,10 +19,21 @@ namespace credit_approval.Repository
                 .OrderBy(c => c.Id)
                 .ToList();
         }
+        public IEnumerable<Credit> GetByAuthState(int state)
+        {
+            return FindByCondition(c => c.State == true & c.AuthState == state)
+                .OrderBy(c => c.Id)
+                .ToList();
+        }
         public Credit GetCreditById(int creditId)
         {
             return FindByCondition(c => c.Id == creditId & c.State == true)
                     .FirstOrDefault();
+        }
+        public bool ClienthasCredits(int clientId)
+        {
+            return FindByCondition(c => c.ClientId == clientId & c.State == true)
+                    .Any();
         }
         public void CreateCredit(Credit credit)
         {

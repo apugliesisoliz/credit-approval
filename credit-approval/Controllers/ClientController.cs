@@ -92,7 +92,7 @@ namespace credit_approval.Controllers
             {
                 if (client == null)
                 {
-                    return BadRequest("Owner object is null");
+                    return BadRequest("Client object is null");
                 }
                 if (!ModelState.IsValid)
                 {
@@ -123,6 +123,10 @@ namespace credit_approval.Controllers
                 if (clientEntity == null)
                 {
                     return NotFound();
+                }
+                if (!_repository.Credit.ClienthasCredits(clientEntity.Id))
+                {
+                    return BadRequest("Cant delete Client, he has credits");
                 }
                 clientEntity.State = false;
                 _repository.Client.UpdateClient(clientEntity);

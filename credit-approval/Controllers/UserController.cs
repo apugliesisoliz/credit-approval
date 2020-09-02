@@ -95,7 +95,7 @@ namespace credit_approval.Controllers
             {
                 if (user == null)
                 {
-                    return BadRequest("Owner object is null");
+                    return BadRequest("User object is null");
                 }
                 if (!ModelState.IsValid)
                 {

@@ -24,7 +24,11 @@ namespace credit_approval.Repository
             return FindByCondition(u => u.UserId.Equals(userId) & u.State == true)
                     .FirstOrDefault();
         }
-
+        public bool UserHasPrivileges(string userId)
+        {
+            return FindByCondition(u => u.UserId.Equals(userId) & u.CanModCredit == true & u.State == true)
+                    .Any();
+        }
         public void CreateUser(User user)
         {
             Create(user);
