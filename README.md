@@ -102,6 +102,30 @@ Modicy a credit
 
 Delete a credit 
 
-/api/credit/delete/1
+/api/credit/delete/{CreditId}
+
+Approve a Credit 
+
+/api/credit/approve/{CreditId}
+
+{
+    "UserAuth": "apugliesi1"
+}
+
+Refuse a Credit 
+
+/api/credit/refuse/{CreditId}
+
+{
+    "UserAuth": "apugliesi1"
+}
+
+Gets credits for auth state
+
+/api/client/getByAuthState/{AuthState} // 0 is created - waiting for response, 1 is approved, 2 is refused
+
+
+
+
 
 
