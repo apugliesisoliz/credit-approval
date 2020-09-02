@@ -38,7 +38,7 @@ namespace credit_approval.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "OwnerById")]
+        [HttpGet("{userId}", Name = "UserById")]
         public IActionResult GetUserById(string userId)
         {
             try
@@ -50,7 +50,7 @@ namespace credit_approval.Controllers
                 }
                 else
                 {
-                    var usersResult = _mapper.Map<IEnumerable<UserDto>>(user);
+                    var usersResult = _mapper.Map<UserDto>(user);
                     return Ok(user);
                 }
             }
@@ -79,7 +79,7 @@ namespace credit_approval.Controllers
                 _repository.User.CreateUser(userEntity);
                 _repository.Save();
                 var createdUser = _mapper.Map<UserDto>(userEntity);
-                return CreatedAtRoute("OwnerById", new { id = createdUser.UserId }, createdUser);
+                return CreatedAtRoute("UserById", new { id = createdUser.UserId }, createdUser);
             }
             catch (Exception ex)
             {
