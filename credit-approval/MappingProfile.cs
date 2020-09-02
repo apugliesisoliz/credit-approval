@@ -18,6 +18,7 @@ namespace credit_approval
 
             CreateMap<Client, ClientDto>();
             CreateMap<ClientForCreationDto, Client>();
+            CreateMap<ClientForUpdate, Client>();
         }
     }
 }

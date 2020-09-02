@@ -77,7 +77,7 @@ namespace credit_approval.Controllers
                 _repository.Client.CreateClient(clientEntity);
                 _repository.Save();
                 var createdClient = _mapper.Map<ClientDto>(clientEntity);
-                return CreatedAtRoute("ClientById", new { id = createdClient.Id }, createdClient);
+                return CreatedAtRoute("ClientById", new { clientId = createdClient.Id }, createdClient);
             }
             catch (Exception ex)
             {
