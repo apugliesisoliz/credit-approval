@@ -10,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using credit_approval.Repository;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using credit_approval.Contracts;
+using AutoMapper;
 
 namespace credit_approval
 {
@@ -26,6 +31,12 @@ namespace credit_approval
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContextPool<RepositoryContext>(
+                options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")
+                ));
+            services.AddMvc();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
