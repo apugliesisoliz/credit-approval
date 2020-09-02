@@ -9,6 +9,7 @@ namespace credit_approval.Contracts
     {
         IUserRepository User { get; }
         IClientRepository Client { get; }
+        ICreditRepository Credit { get; }
         void Save();
     }
 }

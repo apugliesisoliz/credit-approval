@@ -24,6 +24,11 @@ namespace credit_approval.Repository
             return FindByCondition(c => c.Id == clientId & c.State == true)
                     .FirstOrDefault();
         }
+        public bool ClientExist(int clientId)
+        {
+            return FindByCondition(c => c.Id == clientId & c.State == true)
+                    .Any();
+        }
         public void CreateClient(Client client)
         {
             Create(client);

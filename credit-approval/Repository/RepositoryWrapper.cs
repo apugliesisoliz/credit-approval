@@ -12,6 +12,7 @@ namespace credit_approval.Repository
         private RepositoryContext _repoContext;
         private IUserRepository _user;
         private IClientRepository _client;
+        private ICreditRepository _credit;
 
         public IUserRepository User
         {
@@ -34,6 +35,17 @@ namespace credit_approval.Repository
                     _client = new ClientRepository(_repoContext);
                 }
                 return _client;
+            }
+        }
+        public ICreditRepository Credit
+        {
+            get
+            {
+                if (_credit == null)
+                {
+                    _credit = new CreditRepository(_repoContext);
+                }
+                return _credit;
             }
         }
         public RepositoryWrapper(RepositoryContext repositoryContext)

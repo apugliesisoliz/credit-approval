@@ -15,6 +15,7 @@ namespace credit_approval.Repository
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Credit> Credits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

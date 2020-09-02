@@ -10,6 +10,7 @@ namespace credit_approval.Contracts
     {
         IEnumerable<Client> GetAllClients();
         Client GetClientById(int clientId);
+        bool ClientExist(int clientId);
         void CreateClient(Client client);
         void UpdateClient(Client client);
     }
