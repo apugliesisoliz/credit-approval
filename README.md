@@ -44,3 +44,31 @@ Modify a User
 Delete a User
 
 /user/delete/{UserId}
+
+create a cliente 
+
+/api/client/create
+
+{
+    "Name": "Alejandro",
+    "LastName": "Soliz",
+    "Adress": "Bolivia",
+    "Calification": "buena"
+}
+
+Get all clients
+
+/api/client/get
+
+Update a Client
+
+/api/client/update/{ClientId}
+
+{
+    "Name": "Alejandro",
+    "LastName": "Pugliesi Soliz",
+    "Adress": "Bolivia",
+    "Calification": "Muy Buena"
+}
+
+
