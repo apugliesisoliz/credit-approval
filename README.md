@@ -2,11 +2,19 @@
 API REST application which describes the credit approval process of a fictitious company based on customer ranks
 
 # Environment Steps
+For this particular application we need to create the following user:
+
+User: root
+
+ässword: root
+
 The application needs to run the next 2 commands in Package Manager Console:
 
 1.- Add-Migration DbInit
 
 2.- Update-Database
+
+if you want a BD with data, please excecute the scripts in the route "Mysql/*"
 
 # Documentation
 
