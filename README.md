@@ -71,4 +71,37 @@ Update a Client
     "Calification": "Muy Buena"
 }
 
+create a credit
+
+/api/credit/create
+
+{
+    "Description": "Credito Vivienda",
+    "Amount": 50000,
+    "AiIndicator": 6,
+    "ClientId":1
+}
+
+Get all credits
+
+/api/credit/get
+
+get a specific credit 
+
+/api/client/get/{CreditId}
+
+Modicy a credit
+
+/api/credit/update/{CreditId}
+
+{
+    "Description": "Credito Vivienda",
+    "Amount": 70000,
+    "AiIndicator": 8
+}
+
+Delete a credit 
+
+/api/credit/delete/1
+
 
