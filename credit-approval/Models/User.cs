@@ -21,6 +21,8 @@ namespace credit_approval.Models
         public DateTime DateValidityPassword { get; set; }
         public string Token { get; set; }
         public DateTime DateValidityToken { get; set; }
-        public bool CanAuthCredit { get; set; }
+        public bool CanModCredit { get; set; }
+        public double MaxAmountAuthCredit { get; set; }
+        public bool State { get; set; }
     }
 }

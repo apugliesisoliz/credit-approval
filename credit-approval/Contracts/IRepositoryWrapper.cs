@@ -8,6 +8,7 @@ namespace credit_approval.Contracts
     public interface IRepositoryWrapper
     {
         IUserRepository User { get; }
+        IClientRepository Client { get; }
         void Save();
     }
 }

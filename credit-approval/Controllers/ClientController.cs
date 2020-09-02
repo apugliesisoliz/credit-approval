@@ -11,26 +11,25 @@ using credit_approval.Models;
 
 namespace credit_approval.Controllers
 {
-    [Route("api/user")]
+    [Route("api/client")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ClientController : ControllerBase
     {
         private IRepositoryWrapper _repository;
         private IMapper _mapper;
-        public UserController(IRepositoryWrapper repository, IMapper mapper)
+        public ClientController(IRepositoryWrapper repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
-
         [HttpGet("get")]
-        public IActionResult GetAllUsers()
+        public IActionResult GetAllClients()
         {
             try
             {
-                var users = _repository.User.GetAllUsers();
-                var usersResult = _mapper.Map<IEnumerable<UserDto>>(users);
-                return Ok(usersResult);
+                var clients = _repository.Client.GetAllClients();
+                var clientsResult = _mapper.Map<IEnumerable<ClientDto>>(clients);
+                return Ok(clientsResult);
             }
             catch (Exception ex)
             {
@@ -38,20 +37,20 @@ namespace credit_approval.Controllers
             }
         }
 
-        [HttpGet("get/{userId}", Name = "UserById")]
-        public IActionResult GetUserById(string userId)
+        [HttpGet("get/{clientId}", Name = "ClientById")]
+        public IActionResult GetClientById(int clientId)
         {
             try
             {
-                var user = _repository.User.GetUserById(userId);
-                if (user == null)
+                var client = _repository.Client.GetClientById(clientId);
+                if (client == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    var usersResult = _mapper.Map<UserDto>(user);
-                    return Ok(usersResult);
+                    var clientResult = _mapper.Map<ClientDto>(client);
+                    return Ok(clientResult);
                 }
             }
             catch (Exception ex)
@@ -61,26 +60,24 @@ namespace credit_approval.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult CreateUser([FromBody] UserForCreationDto user)
+        public IActionResult CreateClient([FromBody] ClientForCreationDto client)
         {
             try
             {
-                if (user == null)
+                if (client == null)
                 {
-                    return BadRequest("User object is null");
+                    return BadRequest("client object is null");
                 }
                 if (!ModelState.IsValid)
                 {
                     return BadRequest("Invalid model object");
                 }
-                var userEntity = _mapper.Map<User>(user);
-                userEntity.DateUpdatePassword = DateTime.Now;
-                userEntity.DateValidityPassword = DateTime.Now.AddMonths(3);
-                userEntity.State = true;
-                _repository.User.CreateUser(userEntity);
+                var clientEntity = _mapper.Map<Client>(client);
+                clientEntity.State = true;
+                _repository.Client.CreateClient(clientEntity);
                 _repository.Save();
-                var createdUser = _mapper.Map<UserDto>(userEntity);
-                return CreatedAtRoute("UserById", new { userId = createdUser.UserId }, createdUser);
+                var createdClient = _mapper.Map<ClientDto>(clientEntity);
+                return CreatedAtRoute("ClientById", new { id = createdClient.Id }, createdClient);
             }
             catch (Exception ex)
             {
@@ -88,12 +85,12 @@ namespace credit_approval.Controllers
             }
         }
 
-        [HttpPut("update/{userId}")]
-        public IActionResult UpdateUser(string userId, [FromBody] UserForUpdate user)
+        [HttpPut("update/{Id}")]
+        public IActionResult UpdateClient(int Id, [FromBody] ClientForUpdate client)
         {
             try
             {
-                if (user == null)
+                if (client == null)
                 {
                     return BadRequest("Owner object is null");
                 }
@@ -101,13 +98,13 @@ namespace credit_approval.Controllers
                 {
                     return BadRequest("Invalid model object");
                 }
-                var userEntity = _repository.User.GetUserById(userId);
-                if (userEntity == null)
+                var clientEntity = _repository.Client.GetClientById(Id);
+                if (clientEntity == null)
                 {
                     return NotFound();
                 }
-                _mapper.Map(user, userEntity);
-                _repository.User.UpdateUser(userEntity);
+                _mapper.Map(client, clientEntity);
+                _repository.Client.UpdateClient(clientEntity);
                 _repository.Save();
                 return NoContent();
             }
@@ -117,18 +114,18 @@ namespace credit_approval.Controllers
             }
         }
 
-        [HttpPut("delete/{userId}")]
-        public IActionResult DeleteUser(string userId)
+        [HttpPut("delete/{Id}")]
+        public IActionResult DeleteClient(int Id)
         {
             try
             {
-                var userEntity = _repository.User.GetUserById(userId);
-                if (userEntity == null)
+                var clientEntity = _repository.Client.GetClientById(Id);
+                if (clientEntity == null)
                 {
                     return NotFound();
                 }
-                userEntity.State = false;
-                _repository.User.UpdateUser(userEntity);
+                clientEntity.State = false;
+                _repository.Client.UpdateClient(clientEntity);
                 _repository.Save();
                 return NoContent();
             }

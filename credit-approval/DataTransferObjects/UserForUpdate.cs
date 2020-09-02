@@ -7,11 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace credit_approval.DataTransferObjects
 {
-    public class UserForCreationDto
+    public class UserForUpdate
     {
-        [Required(ErrorMessage = "UserId is required")]
-        [StringLength(100, ErrorMessage = "UserId can't be longer than 100 characters")]
-        public string UserId { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [StringLength(100, ErrorMessage = "Password can't be longer than 100 characters")]
         public string Password { get; set; }

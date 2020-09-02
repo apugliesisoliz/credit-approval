@@ -11,5 +11,6 @@ namespace credit_approval.Contracts
         IEnumerable<User> GetAllUsers();
         User GetUserById(string userId);
         void CreateUser(User user);
+        void UpdateUser(User user);
     }
 }

@@ -14,6 +14,10 @@ namespace credit_approval
         {
             CreateMap<User, UserDto>();
             CreateMap<UserForCreationDto, User>();
+            CreateMap<UserForUpdate, User>();
+
+            CreateMap<Client, ClientDto>();
+            CreateMap<ClientForCreationDto, Client>();
         }
     }
 }

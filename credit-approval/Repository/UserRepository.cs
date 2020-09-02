@@ -15,19 +15,24 @@ namespace credit_approval.Repository
         }
         public IEnumerable<User> GetAllUsers()
         {
-            return FindAll()
+            return FindByCondition(u => u.State == true)
                 .OrderBy(u => u.UserId)
                 .ToList();
         }
         public User GetUserById(string userId)
         {
-            return FindByCondition(u => u.UserId.Equals(userId))
+            return FindByCondition(u => u.UserId.Equals(userId) & u.State == true)
                     .FirstOrDefault();
         }
 
         public void CreateUser(User user)
         {
             Create(user);
+        }
+
+        public void UpdateUser(User user)
+        {
+            Update(user);
         }
     }
 }
